@@ -82,15 +82,20 @@ def on_message(message):
 			if best>0:
 				sorted(results,reverse=True)
 				n=best
+			output='```'
 			for i in range(0,n):
-				yield from bot.send_message(message.channel,'{0}'.format(results[i]))
+				output+=str(results[i])
+				output+=' '
 				sum+=results[i]
+			
 			if(each==0):
 				sum+=mod
 			if best==-1:
-				yield from bot.send_message(message.channel,'total sum: {0}'.format(sum))
+				output+='\n{0}'.format(message.author)+': total sum: '+str(sum)
 			else:
-				yield from bot.send_message(message.channel,'best {0} sum: {1}'.format(best,sum))
+				output+='\n{0}'.format(message.author)+': best '+best+' sum: '+str(sum)
+			output+='```'
+			yield from bot.send_message(message.channel,output)
 		else:
 			yield from bot.process_commands(message)
 	else:
